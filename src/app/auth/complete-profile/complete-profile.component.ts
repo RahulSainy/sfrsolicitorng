@@ -43,7 +43,7 @@ export class CompleteProfileComponent implements OnInit {
       qualifications: [''],
       aboutYou: [''],
       currentEmployer: [''],
-      gmcNumber: [''],
+      gmcNumber: ['',[Validators.required,Validators.pattern(/^[A-Z]\d{6}$/i)]],
     });
 
      this.professionalExpFormGroup = this.fb.group({
