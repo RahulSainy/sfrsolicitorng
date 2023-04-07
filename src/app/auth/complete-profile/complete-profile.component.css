@@ -1,0 +1,25 @@
+.mat-input-element[type=date], .mat-input-element[type=datetime], .mat-input-element[type=datetime-local], .mat-input-element[type=month], .mat-input-element[type=week], .mat-input-element[type=time] {
+  line-height: 1;
+  font-size: 21px;
+}
+.example-half-width {
+  width: 48%;
+  margin-right: 2%;
+}
+.example-full-width{
+  width:100%
+}
+
+.example-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.example-margin {
+      margin: 0 10px;
+}
+.file-name {
+  margin-left: 1rem; /* or whatever margin you require */
+}
