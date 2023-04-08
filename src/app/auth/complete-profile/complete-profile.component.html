@@ -97,11 +97,15 @@
         <mat-icon matPrefix>assignment_ind</mat-icon>
         <mat-label>GMC Number</mat-label>
         <input matInput formControlName="gmcNumber" />
-       
-        <mat-error *ngIf="demographicsFormGroup.get('gmcNumber')?.touched && demographicsFormGroup.get('gmcNumber')?.invalid">
+
+        <mat-error
+          *ngIf="
+            demographicsFormGroup.get('gmcNumber')?.touched &&
+            demographicsFormGroup.get('gmcNumber')?.invalid
+          "
+        >
           Please enter a valid GMC/HCPC Number (e.g. A123456)
         </mat-error>
-        
       </mat-form-field>
 
       <div style="float: inherit; margin-top: 2%;">
@@ -123,7 +127,14 @@
 
       <mat-form-field appearance="outline" class="example-half-width">
         <mat-label>Fields of Expertise</mat-label>
-        <input matInput formControlName="fieldsOfExpertise" />
+        <mat-select formControlName="fieldsOfExpertise" multiple>
+          <mat-option
+            *ngFor="let field of fieldsOfExpertiseOptions"
+            [value]="field.value"
+          >
+            {{ field.viewValue }}
+          </mat-option>
+        </mat-select>
         <mat-icon matSuffix>category</mat-icon>
         <mat-error
           *ngIf="
@@ -132,49 +143,113 @@
               professionalExpFormGroup.get('fieldsOfExpertise')?.touched)
           "
         >
-          Please enter your fields of expertise
+          Please select at least one field of expertise
         </mat-error>
       </mat-form-field>
+
+      <div formGroupName="yearsOfExpPerField">
+        <ng-container *ngFor="let field of fieldsOfExpertiseOptions">
+          <div
+            *ngIf="
+              professionalExpFormGroup
+                .get('fieldsOfExpertise')
+                ?.value?.indexOf(field.value) !== -1
+            "
+          >
+            <mat-form-field appearance="outline" class="example-half-width">
+              <mat-label>
+                Years of Experience for {{ field.viewValue }}
+              </mat-label>
+              <input matInput [formControlName]="field.value" type="number" />
+              <mat-icon matSuffix>history_toggle_off</mat-icon>
+              <mat-error
+                *ngIf="
+                  professionalExpFormGroup.get(
+                    'yearsOfExpPerField.' + field.value
+                  )?.invalid &&
+                  (professionalExpFormGroup.get(
+                    'yearsOfExpPerField.' + field.value
+                  )?.dirty ||
+                    professionalExpFormGroup.get(
+                      'yearsOfExpPerField.' + field.value
+                    )?.touched)
+                "
+              >
+                Please enter a valid number of years of experience for
+                {{ field.viewValue }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </ng-container>
+      </div>
+
+      <mat-form-field
+        class="example-chip-list"
+        appearance="outline"
+        fxFlex
+        class="example-full-width"
+      >
+        <mat-label>Keywords</mat-label>
+        <mat-chip-grid #chipList aria-label="Keyword selection">
+          <mat-chip-row
+            *ngFor="let keyword of keywords"
+            [removable]="removable"
+            (removed)="removeKeyword(keyword)"
+          >
+            {{ keyword }}
+            <button matChipRemove [attr.aria-label]="'remove ' + keyword">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+        </mat-chip-grid>
+
+        <input
+          placeholder="Enter keyword"
+          #keywordInput
+          [matChipInputFor]="chipList"
+          [matAutocomplete]="auto"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="addKeyword($event)"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="selectedKeyword($event)"
+        >
+          <mat-option
+            *ngFor="let keyword of filteredKeywords | async"
+            [value]="keyword"
+          >
+            {{ keyword }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" fxFlex class="example-half-width">
+        <mat-label>Number of Completed Cases</mat-label>
+        <input
+          matInput
+          formControlName="numberOfCompletedCases"
+          type="number"
+        />
+        <mat-error
+          *ngIf="
+            professionalExpFormGroup.get('numberOfCompletedCases')?.invalid
+          "
+        >
+          Please enter a valid number of completed cases
+        </mat-error>
+      </mat-form-field>
+ 
+
+
+
 
       <mat-form-field appearance="outline" class="example-half-width">
-        <mat-label>Years of Experience</mat-label>
-        <input matInput formControlName="yearsOfExperience" />
-        <mat-icon matSuffix>calendar_today</mat-icon>
-        <mat-error
-          *ngIf="
-            professionalExpFormGroup.get('yearsOfExperience')?.invalid &&
-            (professionalExpFormGroup.get('yearsOfExperience')?.dirty ||
-              professionalExpFormGroup.get('yearsOfExperience')?.touched)
-          "
-        >
-          Please enter your years of experience
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="example-full-width">
-        <mat-label>Keywords</mat-label>
-        <input matInput formControlName="keywords" />
-        <mat-icon matSuffix>label</mat-icon>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="example-full-width">
-        <mat-label>Number of Completed Cases</mat-label>
-        <input matInput formControlName="numberOfCompletedCases" />
-        <mat-icon matSuffix>folder</mat-icon>
-        <mat-error
-          *ngIf="
-            professionalExpFormGroup.get('numberOfCompletedCases')?.invalid &&
-            (professionalExpFormGroup.get('numberOfCompletedCases')?.dirty ||
-              professionalExpFormGroup.get('numberOfCompletedCases')?.touched)
-          "
-        >
-          Please enter the number of completed cases
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="example-full-width">
         <mat-label>Type of Expert Work</mat-label>
-        <input matInput formControlName="typeOfExpertWork" />
+        <mat-select formControlName="typeOfExpertWork" multiple>
+          <mat-option value="criminal">Criminal</mat-option>
+          <mat-option value="civil">Civil</mat-option>
+        </mat-select>
         <mat-icon matSuffix>work</mat-icon>
         <mat-error
           *ngIf="
@@ -183,109 +258,118 @@
               professionalExpFormGroup.get('typeOfExpertWork')?.touched)
           "
         >
-          Please enter the type of expert work
+          Please select at least one type of expert work
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="example-full-width">
+
+
+
+      <mat-form-field appearance="outline" class="example-half-width">
         <mat-label>Civil Case Reports Options</mat-label>
-        <input matInput formControlName="civilCaseReportsOptions" />
+        <mat-select formControlName="civilCaseReportsOptions" multiple>
+          <mat-option *ngFor="let option of civilCaseReportOptions" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-select>
         <mat-icon matSuffix>list_alt</mat-icon>
-        <mat-error
-          *ngIf="
-            professionalExpFormGroup.get('civilCaseReportsOptions')?.invalid &&
-            (professionalExpFormGroup.get('civilCaseReportsOptions')?.dirty ||
-              professionalExpFormGroup.get('civilCaseReportsOptions')?.touched)
-          "
-        >
-          Please enter the civilcase reports option.
+        <mat-error *ngIf="professionalExpFormGroup.get('civilCaseReportsOptions')?.invalid && (professionalExpFormGroup.get('civilCaseReportsOptions')?.dirty || professionalExpFormGroup.get('civilCaseReportsOptions')?.touched)">
+          Please enter the civil case reports option(s).
         </mat-error>
       </mat-form-field>
+      
+      
 
-      <mat-form-field appearance="outline" class="example-full-width">
+      
+
+
+
+      <mat-form-field appearance="outline" class="example-half-width">
         <mat-label>Criminal Case Reports Options</mat-label>
-        <input matInput formControlName="criminalCaseReportsOptions" />
+        <mat-select formControlName="criminalCaseReportsOptions" multiple>
+          <mat-option *ngFor="let option of criminalCaseReportsOptions" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-select>
         <mat-icon matSuffix>list_alt</mat-icon>
-        <mat-error
-          *ngIf="
-            professionalExpFormGroup.get('criminalCaseReportsOptions')
-              ?.invalid &&
-            (professionalExpFormGroup.get('criminalCaseReportsOptions')
-              ?.dirty ||
-              professionalExpFormGroup.get('criminalCaseReportsOptions')
-                ?.touched)
-          "
-        >
-          Please enter the criminal case reports option.
+        <mat-error *ngIf="professionalExpFormGroup.get('criminalCaseReportsOptions')?.invalid && (professionalExpFormGroup.get('criminalCaseReportsOptions')?.dirty || professionalExpFormGroup.get('criminalCaseReportsOptions')?.touched)">
+          Please enter the criminal case reports option(s).
         </mat-error>
       </mat-form-field>
 
+     
       <h4>Ratio of Instructions</h4>
 
-      <h5>Criminal Cases</h5>
-      <mat-form-field appearance="outline" class="example-half-width">
-        <mat-label>Defence</mat-label>
-        <input matInput formControlName="criminalCasesDefence" />
-        <mat-icon matSuffix>person</mat-icon>
-        <mat-error
-          *ngIf="
-            professionalExpFormGroup.get('criminalCasesDefence')?.invalid &&
-            (professionalExpFormGroup.get('criminalCasesDefence')?.dirty ||
-              professionalExpFormGroup.get('criminalCasesDefence')?.touched)
-          "
-        >
-          Please enter a valid number for criminal cases defence.
-        </mat-error>
-      </mat-form-field>
+      <div *ngIf="professionalExpFormGroup.get('typeOfExpertWork')?.value === 'criminal' || professionalExpFormGroup.get('typeOfExpertWork')?.value?.includes('criminal')">
+        <h5>Criminal Cases</h5>
+        <mat-form-field appearance="outline" class="example-half-width">
+          <mat-label>Defence</mat-label>
+          <input matInput formControlName="criminalCasesDefence" />
+          <mat-icon matSuffix>people_alt</mat-icon>
+          <mat-error
+            *ngIf="
+              professionalExpFormGroup.get('criminalCasesDefence')?.invalid &&
+              (professionalExpFormGroup.get('criminalCasesDefence')?.dirty ||
+                professionalExpFormGroup.get('criminalCasesDefence')?.touched)
+            "
+          >
+            Please enter a valid number for criminal cases defence.
+          </mat-error>
+        </mat-form-field>
+      
+        <mat-form-field appearance="outline" class="example-half-width">
+          <mat-label>Prosecution</mat-label>
+          <input matInput formControlName="criminalCasesProsecution" />
+          <mat-icon matSuffix>person</mat-icon>
+          <mat-error
+            *ngIf="
+              professionalExpFormGroup.get('criminalCasesProsecution')?.invalid &&
+              (professionalExpFormGroup.get('criminalCasesProsecution')?.dirty ||
+                professionalExpFormGroup.get('criminalCasesProsecution')?.touched)
+            "
+          >
+            Please enter a valid number for criminal cases prosecution.
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-      <mat-form-field appearance="outline" class="example-half-width">
-        <mat-label>Prosecution</mat-label>
-        <input matInput formControlName="criminalCasesProsecution" />
-        <mat-icon matSuffix>person</mat-icon>
-        <mat-error
+      <div *ngIf="professionalExpFormGroup.get('typeOfExpertWork')?.value === 'civil' || professionalExpFormGroup.get('typeOfExpertWork')?.value?.includes('civil')">
+        <h5>Civil Cases</h5>
+        <mat-form-field appearance="outline" class="example-half-width">
+          <mat-label>Defendant</mat-label>
+          <input matInput formControlName="civilCasesDefendant" />
+          <mat-icon matSuffix>people_alt</mat-icon>
+          <mat-error
           *ngIf="
-            professionalExpFormGroup.get('criminalCasesProsecution')?.invalid &&
-            (professionalExpFormGroup.get('criminalCasesProsecution')?.dirty ||
-              professionalExpFormGroup.get('criminalCasesProsecution')?.touched)
+          professionalExpFormGroup.get('civilCasesDefendant')?.invalid &&
+          (professionalExpFormGroup.get('civilCasesDefendant')?.dirty ||
+          professionalExpFormGroup.get('civilCasesDefendant')?.touched)
           "
-        >
-          Please enter a valid number for criminal cases prosecution.
-        </mat-error>
-      </mat-form-field>
-
-      <h5>Civil Cases</h5>
-      <mat-form-field appearance="outline" class="example-half-width">
-        <mat-label>Defendant</mat-label>
-        <input matInput formControlName="civilCasesDefendant" />
-        <mat-icon matSuffix>person</mat-icon>
-        <mat-error
-          *ngIf="
-            professionalExpFormGroup.get('.civilCasesDefendant')?.invalid &&
-            (professionalExpFormGroup.get('civilCasesDefendant')?.dirty ||
-              professionalExpFormGroup.get('civilCasesDefendant')?.touched)
-          "
-        >
+          >
           Please enter a valid number for civil cases Defendant.
-        </mat-error>
-      </mat-form-field>
+          </mat-error>
+          </mat-form-field>
+          
+            <mat-form-field appearance="outline" class="example-half-width">
+              <mat-label>Claimant</mat-label>
+              <input matInput formControlName="civilCasesClaimant" />
+              <mat-icon matSuffix>person</mat-icon>
+              <mat-error
+                *ngIf="
+                  professionalExpFormGroup.get('civilCasesClaimant')?.invalid &&
+                  (professionalExpFormGroup.get('civilCasesClaimant')?.dirty ||
+                    professionalExpFormGroup.get('civilCasesClaimant')?.touched)
+                "
+              >
+                Please enter a valid number for civil cases Claimant.
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-      <mat-form-field appearance="outline" class="example-half-width">
-        <mat-label>Claimant</mat-label>
-        <input matInput formControlName="civilCasesClaimant" />
-        <mat-icon matSuffix>person</mat-icon>
-        <mat-error
-          *ngIf="
-            professionalExpFormGroup.get('civilCasesClaimant')?.invalid &&
-            (professionalExpFormGroup.get('civilCasesClaimant')?.dirty ||
-              professionalExpFormGroup.get('civilCasesClaimant')?.touched)
-          "
-        >
-          Please enter a valid number for civil cases Claimant.
-        </mat-error>
-      </mat-form-field>
 
-      <mat-form-field appearance="outline" class="example-full-width">
-        <h3>Number of Appearances</h3>
+
+          <mat-form-field appearance="outline" class="example-full-width">
+        <mat-label>Number of court Appearances</mat-label>
         <input matInput formControlName="numberOfAppearances" />
         <mat-icon matSuffix>visibility</mat-icon>
         <mat-error
@@ -336,6 +420,9 @@
         </mat-radio-button>
       </mat-radio-group>
       <br />
+
+      <div *ngIf="professionalExpFormGroup.get('externalVetting')?.value === 'yes' || professionalExpFormGroup.get('externalVetting')?.value?.includes('yes')" >
+
       <mat-form-field appearance="outline" class="example-full-width">
         <mat-label>External Vetting Details</mat-label>
         <textarea matInput formControlName="externalVettingDetails"></textarea>
@@ -350,6 +437,7 @@
           Please enter external vetting details.
         </mat-error>
       </mat-form-field>
+    </div>
 
       <div style="float: inherit; margin-top: 2%;">
         <button
@@ -625,7 +713,7 @@
         <mat-radio-button value="processor">Data processor</mat-radio-button>
       </mat-radio-group>
     </form>
-<h1>file</h1>
+    <h1>file</h1>
 
     <form [formGroup]="filesFormGroup">
       <ng-template matStepLabel>CV upload</ng-template>
