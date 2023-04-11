@@ -20,6 +20,37 @@
 .example-margin {
       margin: 0 10px;
 }
+
+/* ------------------- file css ---------------   */
+
+/* .file-upload-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+} */
+
+/* .form-field {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+} */
+
 .file-name {
-  margin-left: 1rem; /* or whatever margin you require */
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+  /* .form-field {
+    flex-direction: column;
+    align-items: flex-start;
+  } */
+
+  .file-name {
+    margin-top: 10px;
+    margin-left: 0;
+  }
 }

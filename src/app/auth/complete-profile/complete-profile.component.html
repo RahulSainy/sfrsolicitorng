@@ -50,12 +50,12 @@
       <mat-form-field appearance="outline" class="example-half-width">
         <mat-icon matPrefix>phone</mat-icon>
         <mat-label>Phone Number</mat-label>
-        <input matInput formControlName="phoneNumber" />
+        <input matInput formControlName="contact" />
         <mat-error
           *ngIf="
-            demographicsFormGroup.get('phoneNumber')?.invalid &&
-            (demographicsFormGroup.get('phoneNumber')?.dirty ||
-              demographicsFormGroup.get('phoneNumber')?.touched)
+            demographicsFormGroup.get('contact')?.invalid &&
+            (demographicsFormGroup.get('contact')?.dirty ||
+              demographicsFormGroup.get('contact')?.touched)
           "
         >
           Please enter a valid phone number
@@ -210,6 +210,8 @@
           [matAutocomplete]="auto"
           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
           (matChipInputTokenEnd)="addKeyword($event)"
+          formControlName="keywords"
+          required
         />
         <mat-autocomplete
           #auto="matAutocomplete"
@@ -222,6 +224,16 @@
             {{ keyword }}
           </mat-option>
         </mat-autocomplete>
+
+        <mat-error
+          *ngIf="
+            professionalExpFormGroup.get('keywords')?.invalid &&
+            (professionalExpFormGroup.get('keywords')?.dirty ||
+              professionalExpFormGroup.get('keywords')?.touched)
+          "
+        >
+          Please enter a keyword.
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" fxFlex class="example-half-width">
@@ -239,10 +251,6 @@
           Please enter a valid number of completed cases
         </mat-error>
       </mat-form-field>
- 
-
-
-
 
       <mat-form-field appearance="outline" class="example-half-width">
         <mat-label>Type of Expert Work</mat-label>
@@ -262,45 +270,64 @@
         </mat-error>
       </mat-form-field>
 
-
-
-
       <mat-form-field appearance="outline" class="example-half-width">
         <mat-label>Civil Case Reports Options</mat-label>
         <mat-select formControlName="civilCaseReportsOptions" multiple>
-          <mat-option *ngFor="let option of civilCaseReportOptions" [value]="option">
+          <mat-option
+            *ngFor="let option of civilCaseReportOptions"
+            [value]="option"
+          >
             {{ option }}
           </mat-option>
         </mat-select>
         <mat-icon matSuffix>list_alt</mat-icon>
-        <mat-error *ngIf="professionalExpFormGroup.get('civilCaseReportsOptions')?.invalid && (professionalExpFormGroup.get('civilCaseReportsOptions')?.dirty || professionalExpFormGroup.get('civilCaseReportsOptions')?.touched)">
+        <mat-error
+          *ngIf="
+            professionalExpFormGroup.get('civilCaseReportsOptions')?.invalid &&
+            (professionalExpFormGroup.get('civilCaseReportsOptions')?.dirty ||
+              professionalExpFormGroup.get('civilCaseReportsOptions')?.touched)
+          "
+        >
           Please enter the civil case reports option(s).
         </mat-error>
       </mat-form-field>
-      
-      
-
-      
-
-
 
       <mat-form-field appearance="outline" class="example-half-width">
         <mat-label>Criminal Case Reports Options</mat-label>
         <mat-select formControlName="criminalCaseReportsOptions" multiple>
-          <mat-option *ngFor="let option of criminalCaseReportsOptions" [value]="option">
+          <mat-option
+            *ngFor="let option of criminalCaseReportsOptions"
+            [value]="option"
+          >
             {{ option }}
           </mat-option>
         </mat-select>
         <mat-icon matSuffix>list_alt</mat-icon>
-        <mat-error *ngIf="professionalExpFormGroup.get('criminalCaseReportsOptions')?.invalid && (professionalExpFormGroup.get('criminalCaseReportsOptions')?.dirty || professionalExpFormGroup.get('criminalCaseReportsOptions')?.touched)">
+        <mat-error
+          *ngIf="
+            professionalExpFormGroup.get('criminalCaseReportsOptions')
+              ?.invalid &&
+            (professionalExpFormGroup.get('criminalCaseReportsOptions')
+              ?.dirty ||
+              professionalExpFormGroup.get('criminalCaseReportsOptions')
+                ?.touched)
+          "
+        >
           Please enter the criminal case reports option(s).
         </mat-error>
       </mat-form-field>
 
-     
       <h4>Ratio of Instructions</h4>
 
-      <div *ngIf="professionalExpFormGroup.get('typeOfExpertWork')?.value === 'criminal' || professionalExpFormGroup.get('typeOfExpertWork')?.value?.includes('criminal')">
+      <div
+        *ngIf="
+          professionalExpFormGroup.get('typeOfExpertWork')?.value ===
+            'criminal' ||
+          professionalExpFormGroup
+            .get('typeOfExpertWork')
+            ?.value?.includes('criminal')
+        "
+      >
         <h5>Criminal Cases</h5>
         <mat-form-field appearance="outline" class="example-half-width">
           <mat-label>Defence</mat-label>
@@ -316,16 +343,19 @@
             Please enter a valid number for criminal cases defence.
           </mat-error>
         </mat-form-field>
-      
+
         <mat-form-field appearance="outline" class="example-half-width">
           <mat-label>Prosecution</mat-label>
           <input matInput formControlName="criminalCasesProsecution" />
           <mat-icon matSuffix>person</mat-icon>
           <mat-error
             *ngIf="
-              professionalExpFormGroup.get('criminalCasesProsecution')?.invalid &&
-              (professionalExpFormGroup.get('criminalCasesProsecution')?.dirty ||
-                professionalExpFormGroup.get('criminalCasesProsecution')?.touched)
+              professionalExpFormGroup.get('criminalCasesProsecution')
+                ?.invalid &&
+              (professionalExpFormGroup.get('criminalCasesProsecution')
+                ?.dirty ||
+                professionalExpFormGroup.get('criminalCasesProsecution')
+                  ?.touched)
             "
           >
             Please enter a valid number for criminal cases prosecution.
@@ -333,42 +363,47 @@
         </mat-form-field>
       </div>
 
-      <div *ngIf="professionalExpFormGroup.get('typeOfExpertWork')?.value === 'civil' || professionalExpFormGroup.get('typeOfExpertWork')?.value?.includes('civil')">
+      <div
+        *ngIf="
+          professionalExpFormGroup.get('typeOfExpertWork')?.value === 'civil' ||
+          professionalExpFormGroup
+            .get('typeOfExpertWork')
+            ?.value?.includes('civil')
+        "
+      >
         <h5>Civil Cases</h5>
         <mat-form-field appearance="outline" class="example-half-width">
           <mat-label>Defendant</mat-label>
           <input matInput formControlName="civilCasesDefendant" />
           <mat-icon matSuffix>people_alt</mat-icon>
           <mat-error
-          *ngIf="
-          professionalExpFormGroup.get('civilCasesDefendant')?.invalid &&
-          (professionalExpFormGroup.get('civilCasesDefendant')?.dirty ||
-          professionalExpFormGroup.get('civilCasesDefendant')?.touched)
-          "
+            *ngIf="
+              professionalExpFormGroup.get('civilCasesDefendant')?.invalid &&
+              (professionalExpFormGroup.get('civilCasesDefendant')?.dirty ||
+                professionalExpFormGroup.get('civilCasesDefendant')?.touched)
+            "
           >
-          Please enter a valid number for civil cases Defendant.
+            Please enter a valid number for civil cases Defendant.
           </mat-error>
-          </mat-form-field>
-          
-            <mat-form-field appearance="outline" class="example-half-width">
-              <mat-label>Claimant</mat-label>
-              <input matInput formControlName="civilCasesClaimant" />
-              <mat-icon matSuffix>person</mat-icon>
-              <mat-error
-                *ngIf="
-                  professionalExpFormGroup.get('civilCasesClaimant')?.invalid &&
-                  (professionalExpFormGroup.get('civilCasesClaimant')?.dirty ||
-                    professionalExpFormGroup.get('civilCasesClaimant')?.touched)
-                "
-              >
-                Please enter a valid number for civil cases Claimant.
-              </mat-error>
-            </mat-form-field>
-          </div>
+        </mat-form-field>
 
+        <mat-form-field appearance="outline" class="example-half-width">
+          <mat-label>Claimant</mat-label>
+          <input matInput formControlName="civilCasesClaimant" />
+          <mat-icon matSuffix>person</mat-icon>
+          <mat-error
+            *ngIf="
+              professionalExpFormGroup.get('civilCasesClaimant')?.invalid &&
+              (professionalExpFormGroup.get('civilCasesClaimant')?.dirty ||
+                professionalExpFormGroup.get('civilCasesClaimant')?.touched)
+            "
+          >
+            Please enter a valid number for civil cases Claimant.
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-
-          <mat-form-field appearance="outline" class="example-full-width">
+      <mat-form-field appearance="outline" class="example-full-width">
         <mat-label>Number of court Appearances</mat-label>
         <input matInput formControlName="numberOfAppearances" />
         <mat-icon matSuffix>visibility</mat-icon>
@@ -387,10 +422,10 @@
         Are you willing to see claimants / victims face to face?
       </p>
       <mat-radio-group formControlName="faceToFace">
-        <mat-radio-button value="yes">
+        <mat-radio-button value="true">
           <span>Yes</span>
         </mat-radio-button>
-        <mat-radio-button value="no">
+        <mat-radio-button value="false">
           <span>No</span>
         </mat-radio-button>
       </mat-radio-group>
@@ -399,10 +434,10 @@
         Do you accept joint instructions?
       </p>
       <mat-radio-group formControlName="jointInstructions">
-        <mat-radio-button value="yes">
+        <mat-radio-button value="true">
           <span>Yes</span>
         </mat-radio-button>
-        <mat-radio-button value="no">
+        <mat-radio-button value="false">
           <span>No</span>
         </mat-radio-button>
       </mat-radio-group>
@@ -412,32 +447,42 @@
         Security clearance)
       </p>
       <mat-radio-group formControlName="externalVetting">
-        <mat-radio-button value="yes">
+        <mat-radio-button value="true">
           <span>Yes</span>
         </mat-radio-button>
-        <mat-radio-button value="no">
+        <mat-radio-button value="false">
           <span>No</span>
         </mat-radio-button>
       </mat-radio-group>
       <br />
 
-      <div *ngIf="professionalExpFormGroup.get('externalVetting')?.value === 'yes' || professionalExpFormGroup.get('externalVetting')?.value?.includes('yes')" >
-
-      <mat-form-field appearance="outline" class="example-full-width">
-        <mat-label>External Vetting Details</mat-label>
-        <textarea matInput formControlName="externalVettingDetails"></textarea>
-        <mat-icon matSuffix>description</mat-icon>
-        <mat-error
-          *ngIf="
-            professionalExpFormGroup.get('externalVettingDetails')?.invalid &&
-            (professionalExpFormGroup.get('externalVettingDetails')?.dirty ||
-              professionalExpFormGroup.get('externalVettingDetails')?.touched)
-          "
-        >
-          Please enter external vetting details.
-        </mat-error>
-      </mat-form-field>
-    </div>
+      <div
+        *ngIf="
+          professionalExpFormGroup.get('externalVetting')?.value === true ||
+          (professionalExpFormGroup.get('externalVetting')?.value?.includes &&
+            professionalExpFormGroup
+              .get('externalVetting')
+              ?.value.includes(true))
+        "
+      >
+        <mat-form-field appearance="outline" class="example-full-width">
+          <mat-label>External Vetting Details</mat-label>
+          <textarea
+            matInput
+            formControlName="externalVettingDetails"
+          ></textarea>
+          <mat-icon matSuffix>description</mat-icon>
+          <mat-error
+            *ngIf="
+              professionalExpFormGroup.get('externalVettingDetails')?.invalid &&
+              (professionalExpFormGroup.get('externalVettingDetails')?.dirty ||
+                professionalExpFormGroup.get('externalVettingDetails')?.touched)
+            "
+          >
+            Please enter external vetting details.
+          </mat-error>
+        </mat-form-field>
+      </div>
 
       <div style="float: inherit; margin-top: 2%;">
         <button
@@ -464,69 +509,107 @@
     <form [formGroup]="rateFormGroup">
       <ng-template matStepLabel>Pricing</ng-template>
 
-      <mat-form-field appearance="outline" class="example-full-width">
-        <mat-label>Writing Report</mat-label>
-        <input matInput formControlName="writingReport" />
-        <mat-icon matSuffix>article</mat-icon>
-        <mat-error
-          *ngIf="
-            rateFormGroup.get('writingReport')?.invalid &&
-            (rateFormGroup.get('writingReport')?.dirty ||
-              rateFormGroup.get('writingReport')?.touched)
-          "
-        >
-          Please enter a valid writing report number.
-        </mat-error>
-      </mat-form-field>
+      <div formGroupName="writingReport">
+        <mat-form-field appearance="outline" class="example-full-width">
+          <mat-label>Writing Report</mat-label>
+          <input matInput formControlName="rate" type="number" />
+          <mat-select matTextSuffix="" formControlName="type">
+            <mat-option value="hourly">Hourly</mat-option>
+            <mat-option value="daily">Daily</mat-option>
+          </mat-select>
+          <mat-icon matIconPrefix>euro</mat-icon>
 
-      <mat-form-field appearance="outline" class="example-full-width">
-        <mat-label>Activities Out Of Original Instruction</mat-label>
-        <input matInput formControlName="activitiesOutOfOriginalInstruction" />
-        <mat-icon matSuffix>event</mat-icon>
-        <mat-error
-          *ngIf="
-            rateFormGroup.get('activitiesOutOfOriginalInstruction')?.invalid &&
-            (rateFormGroup.get('activitiesOutOfOriginalInstruction')?.dirty ||
-              rateFormGroup.get('activitiesOutOfOriginalInstruction')?.touched)
-          "
-        >
-          Please enter a valid activities number.
-        </mat-error>
-      </mat-form-field>
+          <!-- <mat-icon matSuffix>article</mat-icon> -->
+          <mat-error
+            *ngIf="
+              rateFormGroup.get('writingReport.rate')?.invalid &&
+              (rateFormGroup.get('writingReport.rate')?.dirty ||
+                rateFormGroup.get('writingReport.rate')?.touched)
+            "
+          >
+            Please enter a valid writing report price.
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-      <mat-form-field appearance="outline" class="example-full-width">
-        <mat-label>Attending Court</mat-label>
-        <input matInput formControlName="attendingCourt" />
-        <mat-icon matSuffix>gavel</mat-icon>
-        <mat-error
-          *ngIf="
-            rateFormGroup.get('attendingCourt')?.invalid &&
-            (rateFormGroup.get('attendingCourt')?.dirty ||
-              rateFormGroup.get('attendingCourt')?.touched)
-          "
-        >
-          Please enter a valid attending court number.
-        </mat-error>
-      </mat-form-field>
+      <div formGroupName="activitiesOutOfOriginalInstruction">
+        <mat-form-field appearance="outline" class="example-full-width">
+          <mat-label>other activities</mat-label>
+          <input
+            matInput
+            formControlName="rate"
+            placeholder="Activities Out Of Original Instruction"
+            type="number"
+          />
+          <mat-select matTextSuffix formControlName="type">
+            <mat-option value="hourly">Hourly</mat-option>
+            <mat-option value="daily">Daily</mat-option>
+          </mat-select>
+          <mat-icon matPrefix>event</mat-icon>
+          <mat-error
+            *ngIf="
+              rateFormGroup.get('activitiesOutOfOriginalInstruction.rate')
+                ?.invalid &&
+              (rateFormGroup.get('activitiesOutOfOriginalInstruction.rate')
+                ?.dirty ||
+                rateFormGroup.get('activitiesOutOfOriginalInstruction.rate')
+                  ?.touched)
+            "
+          >
+            Please enter a valid activities price.
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-      <mat-form-field appearance="outline" class="example-full-width">
-        <mat-label>Travelling Time</mat-label>
-        <input matInput formControlName="travellingTime" />
-        <mat-icon matSuffix>flight_takeoff</mat-icon>
-        <mat-error
-          *ngIf="
-            rateFormGroup.get('travellingTime')?.invalid &&
-            (rateFormGroup.get('travellingTime')?.dirty ||
-              rateFormGroup.get('travellingTime')?.touched)
-          "
-        >
-          Please enter a valid travelling time number.
-        </mat-error>
-      </mat-form-field>
+      <div formGroupName="attendingCourt">
+        <mat-form-field appearance="outline" class="example-full-width">
+          <mat-label>Attending Court</mat-label>
+          <input matInput formControlName="rate" type="number" />
+          <mat-select matTextSuffix formControlName="type">
+            <mat-option value="hourly">Hourly</mat-option>
+            <mat-option value="daily">Daily</mat-option>
+          </mat-select>
+          <mat-icon matPrefix>gavel</mat-icon>
+          <mat-error
+            *ngIf="
+              rateFormGroup.get('attendingCourt.rate')?.invalid &&
+              (rateFormGroup.get('attendingCourt.rate')?.dirty ||
+                rateFormGroup.get('attendingCourt.rate')?.touched)
+            "
+          >
+            Please enter a valid attending court price.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div formGroupName="travellingTime">
+        <mat-form-field appearance="outline" class="example-full-width">
+          <mat-label>Travelling Time</mat-label>
+          <input matInput formControlName="rate" type="number" />
+          <mat-select matTextSuffix formControlName="type">
+            <mat-option value="hourly">Hourly</mat-option>
+            <mat-option value="daily">Daily</mat-option>
+          </mat-select>
+          <mat-icon matPrefix>flight_takeoff</mat-icon>
+          <mat-error
+            *ngIf="
+              rateFormGroup.get('travellingTime.rate')?.invalid &&
+              (rateFormGroup.get('travellingTime.rate')?.dirty ||
+                rateFormGroup.get('travellingTime.rate')?.touched)
+            "
+          >
+            Please enter a valid travelling time price.
+          </mat-error>
+        </mat-form-field>
+      </div>
 
       <mat-form-field appearance="outline" class="example-full-width">
         <mat-label>Class of Public Travel Options</mat-label>
-        <input matInput formControlName="classOfPublicTravelOptions" />
+        <mat-select formControlName="classOfPublicTravelOptions" multiple>
+          <mat-option value="standard">Standard</mat-option>
+          <mat-option value="business">Business</mat-option>
+          <mat-option value="first">First</mat-option>
+        </mat-select>
         <mat-icon matSuffix>directions_bus</mat-icon>
         <mat-error
           *ngIf="
@@ -540,19 +623,101 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="example-full-width">
-        <mat-label>Free Time Limit</mat-label>
-        <input matInput formControlName="freeTimeLimit" />
+        <mat-label>
+          Are you willing to offer a free consultation to prospective
+          Instructing Parties?
+        </mat-label>
+        <mat-select formControlName="freeTimeLimitYesNo">
+          <mat-option value="true">Yes</mat-option>
+          <mat-option value="false">No</mat-option>
+        </mat-select>
+        <mat-icon matSuffix>work</mat-icon>
+        <mat-error
+          *ngIf="
+            rateFormGroup.get('freeTimeLimitYesNo')?.invalid &&
+            rateFormGroup.get('freeTimeLimitYesNo')?.dirty
+          "
+        >
+          Please select at least one option
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field
+        appearance="outline"
+        class="example-full-width"
+        *ngIf="
+          rateFormGroup.get('freeTimeLimitYesNo')?.value === true ||
+          (rateFormGroup.get('freeTimeLimitYesNo')?.value?.includes &&
+            rateFormGroup.get('freeTimeLimitYesNo')?.value.includes(true))
+        "
+      >
+        <!-- ngif here --------  -->
+        <mat-label>Enter number of minutes</mat-label>
+        <input
+          matInput
+          formControlName="freeTimeLimit"
+          placeholder="Enter number of minutes"
+        />
         <mat-icon matSuffix>access_time</mat-icon>
         <mat-error
           *ngIf="
             rateFormGroup.get('freeTimeLimit')?.invalid &&
-            (rateFormGroup.get('freeTimeLimit')?.dirty ||
-              rateFormGroup.get('freeTimeLimit')?.touched)
+            rateFormGroup.get('freeTimeLimit')?.dirty
           "
         >
-          Please enter a valid free time limit.
+          Please enter a valid number of minutes.
         </mat-error>
       </mat-form-field>
+
+      <h3>Charging for Court Cancellations</h3>
+
+      <div formGroupName="courtCancellation">
+        <div formGroupName="feeDaysNotice1">
+          <mat-form-field appearance="outline" class="example-half-width">
+            <mat-label>
+              Number of working days notice (A) required for court cancellation
+              resulting in a fee of (B)
+            </mat-label>
+            <input
+              matInput
+              formControlName="daysNotice"
+              placeholder="Enter number (A)"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="example-half-width">
+            <input
+              matInput
+              formControlName="feeAmount"
+              placeholder="Enter number (B)"
+            />
+            <mat-icon matSuffix>euro</mat-icon>
+            <mat-label>Fee amount</mat-label>
+          </mat-form-field>
+        </div>
+        <div formGroupName="feeDaysNotice2">
+          <mat-form-field appearance="outline" class="example-half-width">
+            <mat-label>
+              Number of working days notice (C) required for court cancellation
+              resulting in a fee of (D)
+            </mat-label>
+            <input
+              matInput
+              formControlName="daysNotice"
+              placeholder="Enter number (C)"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="example-half-width">
+            <input
+              matInput
+              formControlName="feeAmount"
+              placeholder="Enter number (D)"
+            />
+            <mat-icon matSuffix>euro</mat-icon>
+            <mat-label>Fee amount</mat-label>
+          </mat-form-field>
+        </div>
+      </div>
+
       <div style="float: inherit; margin-top: 2%;">
         <button
           style="width: 40%; padding: 1%; float: left;"
@@ -577,65 +742,111 @@
   <mat-step [stepControl]="orgDetailsFormGroup">
     <form [formGroup]="orgDetailsFormGroup" class="example-form">
       <ng-template matStepLabel>Organization Details</ng-template>
+
       <mat-form-field appearance="outline" class="example-full-width">
         <mat-label>Services through Organization</mat-label>
-        <textarea
-          matInput
-          formControlName="servicesThroughOrganization"
-        ></textarea>
-        <mat-icon matSuffix>description</mat-icon>
+        <mat-select formControlName="servicesThroughOrganization">
+          <mat-option value="true">Yes</mat-option>
+          <mat-option value="false">No</mat-option>
+        </mat-select>
         <mat-error
           *ngIf="
             orgDetailsFormGroup.get('servicesThroughOrganization')?.invalid &&
-            (orgDetailsFormGroup.get('servicesThroughOrganization')?.dirty ||
-              orgDetailsFormGroup.get('servicesThroughOrganization')?.touched)
+            orgDetailsFormGroup.get('servicesThroughOrganization')?.dirty
           "
         >
-          Please enter services provided through organization.
+          Please select at least one option.
         </mat-error>
       </mat-form-field>
+
+      <div
+        *ngIf="
+          orgDetailsFormGroup.get('servicesThroughOrganization')?.value ===
+            true ||
+          (orgDetailsFormGroup.get('servicesThroughOrganization')?.value
+            ?.includes &&
+            orgDetailsFormGroup
+              .get('servicesThroughOrganization')
+              ?.value.includes(true))
+        "
+      >
+        <mat-form-field appearance="outline" class="example-full-width">
+          <mat-label>Organization Name</mat-label>
+          <input
+            matInput
+            formControlName="organizationName"
+            placeholder="Enter organization name"
+          />
+          <mat-icon matSuffix>work</mat-icon>
+          <mat-error
+            *ngIf="
+              orgDetailsFormGroup.get('organizationName')?.invalid &&
+              (orgDetailsFormGroup.get('organizationName')?.dirty ||
+                orgDetailsFormGroup.get('organizationName')?.touched)
+            "
+          >
+            Please enter a valid organization name.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="example-full-width">
+          <mat-label>Registration Number</mat-label>
+          <input
+            matInput
+            formControlName="registrationNumber"
+            placeholder="Enter registration number"
+          />
+          <mat-icon matSuffix>assignment</mat-icon>
+          <mat-error
+            *ngIf="
+              orgDetailsFormGroup.get('registrationNumber')?.invalid &&
+              (orgDetailsFormGroup.get('registrationNumber')?.dirty ||
+                orgDetailsFormGroup.get('registrationNumber')?.touched)
+            "
+          >
+            Please enter a valid registration number.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
       <mat-form-field appearance="outline" class="example-full-width">
-        <mat-label>Name of Organization</mat-label>
-        <input matInput formControlName="nameOfOrg" />
-        <mat-icon matSuffix>business</mat-icon>
-        <mat-error
-          *ngIf="
-            orgDetailsFormGroup.get('nameOfOrg')?.invalid &&
-            (orgDetailsFormGroup.get('nameOfOrg')?.dirty ||
-              orgDetailsFormGroup.get('nameOfOrg')?.touched)
-          "
-        >
-          Please enter the name of the organization.
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="example-full-width">
-        <mat-label>VAT Charge Option</mat-label>
-        <input matInput formControlName="vatChargeOption" />
+        <mat-label>Do you charge VAT?</mat-label>
+        <mat-select formControlName="vatChargeOption">
+          <mat-option value="true">Yes</mat-option>
+          <mat-option value="false">No</mat-option>
+        </mat-select>
         <mat-icon matSuffix>euro</mat-icon>
         <mat-error
           *ngIf="
             orgDetailsFormGroup.get('vatChargeOption')?.invalid &&
-            (orgDetailsFormGroup.get('vatChargeOption')?.dirty ||
-              orgDetailsFormGroup.get('vatChargeOption')?.touched)
+            orgDetailsFormGroup.get('vatChargeOption')?.dirty
           "
         >
-          Please enter the VAT charge option.
+          Please select an option
         </mat-error>
       </mat-form-field>
-      <mat-form-field appearance="outline" class="example-full-width">
-        <mat-label>VAT Number</mat-label>
-        <input matInput formControlName="vatNumber" />
-        <mat-icon matSuffix>format_list_numbered</mat-icon>
-        <mat-error
-          *ngIf="
-            orgDetailsFormGroup.get('vatNumber')?.invalid &&
-            (orgDetailsFormGroup.get('vatNumber')?.dirty ||
-              orgDetailsFormGroup.get('vatNumber')?.touched)
-          "
-        >
-          Please enter a valid VAT number.
-        </mat-error>
-      </mat-form-field>
+
+      <div
+        *ngIf="
+          orgDetailsFormGroup.get('vatChargeOption')?.value === true ||
+          (orgDetailsFormGroup.get('vatChargeOption')?.value?.includes &&
+            orgDetailsFormGroup.get('vatChargeOption')?.value.includes(true))
+        "
+      >
+        <mat-form-field appearance="outline" class="example-full-width">
+          <mat-label>VAT Number</mat-label>
+          <input matInput formControlName="vatNumber" />
+          <mat-icon matSuffix>format_list_numbered</mat-icon>
+          <mat-error
+            *ngIf="
+              orgDetailsFormGroup.get('vatNumber')?.invalid &&
+              orgDetailsFormGroup.get('vatNumber')?.dirty
+            "
+          >
+            Please enter a valid VAT number.
+          </mat-error>
+        </mat-form-field>
+      </div>
     </form>
     <div style="float: inherit; margin-top: 2%;">
       <button
@@ -659,25 +870,15 @@
 
   <mat-step [stepControl]="paymentTermsFormGroup">
     <form [formGroup]="paymentTermsFormGroup">
-      <ng-template matStepLabel>
-        Payment Terms
-      </ng-template>
-
-      <p>
-        Pre-trial work for publicly funded cases
-      </p>
-      <mat-radio-group
-        formControlName="preTrialWorkForPubliclyFundedCasesOption"
-      >
-        <mat-radio-button value="yes">
-          <span>Yes</span>
-        </mat-radio-button>
-        <mat-radio-button value="no">
-          <span>No</span>
-        </mat-radio-button>
+      <ng-template matStepLabel>Payment Terms</ng-template>
+    
+      <p>Pre-trial work for publicly funded cases</p>
+      <mat-radio-group formControlName="preTrialWorkForPubliclyFundedCasesOption">
+        <mat-radio-button value="true"><span>Yes</span></mat-radio-button>
+        <mat-radio-button value="false"><span>No</span></mat-radio-button>
       </mat-radio-group>
       <br />
-
+    
       <mat-form-field appearance="outline" class="example-full-width">
         <mat-label>No. of days for other work</mat-label>
         <input matInput formControlName="noOfDaysForOtherWork" />
@@ -692,45 +893,56 @@
           Please enter a valid number of days.
         </mat-error>
       </mat-form-field>
-
+    
       <mat-form-field appearance="outline" class="example-full-width">
         <mat-label>Late payment interest rate</mat-label>
         <input matInput formControlName="latePaymentInterestRate" />
-        <mat-icon matSuffix>attach_money</mat-icon>
-        <mat-error
-          *ngIf="
-            paymentTermsFormGroup.get('latePaymentInterestRate')?.invalid &&
-            (paymentTermsFormGroup.get('latePaymentInterestRate')?.dirty ||
-              paymentTermsFormGroup.get('latePaymentInterestRate')?.touched)
-          "
-        >
+        <mat-icon matSuffix>euro</mat-icon>
+        <mat-error *ngIf="paymentTermsFormGroup.get('latePaymentInterestRate')!.hasError('pattern')">
           Please enter a valid interest rate.
         </mat-error>
       </mat-form-field>
-
+    
       <mat-radio-group formControlName="dataControllerOrProcessorOption">
         <mat-radio-button value="controller">Data controller</mat-radio-button>
         <mat-radio-button value="processor">Data processor</mat-radio-button>
       </mat-radio-group>
-    </form>
-    <h1>file</h1>
-
-    <form [formGroup]="filesFormGroup">
-      <ng-template matStepLabel>CV upload</ng-template>
-      <button type="button" mat-raised-button (click)="fileInput.click()">
-        Choose File
-      </button>
-      <input
-        formControlName="cv"
-        hidden
-        (change)="onFileSelected($event)"
-        #fileInput
-        type="file"
-        accept=".pdf,.doc,.docx"
-      />
-      <span class="file-name">{{ filesFormGroup.get('cv')?.value }}</span>
+      <br />
+      
+      <mat-checkbox formControlName="acceptTermsAndConditions">
+        I have read and agree to the
+        <a href="#" target="_blank" (click)="openTermsAndConditions()">
+          terms and conditions
+        </a>
+        .
+      </mat-checkbox>
+      <mat-error *ngIf="paymentTermsFormGroup.get('acceptTermsAndConditions')!.hasError('required')">
+        You must accept the terms and conditions.
+      </mat-error>
     </form>
 
+    <h1>File Upload</h1>
+
+    <form [formGroup]="filesFormGroup" class="file-upload-form">
+      <div class="form-field">
+        <button type="button" mat-raised-button (click)="fileInput.click()">
+          Choose File
+        </button>
+        <input
+          formControlName="cv"
+          hidden
+          (change)="onFileSelected($event)"
+          #fileInput
+          type="file"
+          accept=".pdf,.doc,.docx,.jpg,.png,.gif"
+        />
+        <span class="file-name">{{ filesFormGroup.get('cv')?.value }}</span>
+        <!-- <div *ngIf="fileObjectUrl">
+            <img [src]="fileObjectUrl" *ngIf="isImage(fileType)">
+            <object [data]="fileObjectUrl" type="{{ fileType }}" *ngIf="!isImage(fileType)"></object>
+          </div> -->
+      </div>
+    </form>
     <div style="float: inherit; margin-top: 2%;">
       <button
         style="width: 40%; padding: 1%; float: left;"
@@ -744,7 +956,8 @@
         style="width: 40%; padding: 1%; float: right;"
         mat-flat-button
         color="primary"
-        matStepperNext
+        mat-button
+        (click)="onSubmit()"
       >
         Register
       </button>

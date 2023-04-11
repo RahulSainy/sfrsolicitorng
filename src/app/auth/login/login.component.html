@@ -1,1 +1,53 @@
-<p>login works!</p>
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+    <form [formGroup]="loginForm" (submit)="onSubmit()" style="text-align: center;max-width: 400px; width: 100%;">
+      <h1 style="color:#7EC8E3;">Login</h1>
+      
+      <mat-form-field appearance="outline" class="example-mid-width">
+        <mat-icon matPrefix>email</mat-icon>
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" />
+        <mat-error
+          *ngIf="
+          loginForm.get('email')?.invalid &&
+            (loginForm.get('email')?.dirty ||
+            loginForm.get('email')?.touched)
+          "
+        >
+          Please enter a valid email
+        </mat-error>
+      </mat-form-field>
+    
+      <mat-form-field appearance="outline" class="example-mid-width">
+        <mat-icon matPrefix>vpn_key</mat-icon>
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" type="password" />
+        <mat-error
+          *ngIf="
+          loginForm.get('password')?.invalid &&
+            (loginForm.get('password')?.dirty ||
+            loginForm.get('password')?.touched)
+          "
+        >
+          Please enter your password
+        </mat-error>
+    
+        <mat-error *ngIf="
+        loginForm.get('password')?.hasError('minlength') &&
+        (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)
+      ">
+        Password should be at least 6 characters long
+      </mat-error>
+      </mat-form-field>
+      
+      <div>
+        <button
+          mat-flat-button
+          color="primary"
+          [disabled]="loginForm.invalid"
+        >
+          Login
+        </button>
+      </div>
+    </form>
+  </div>
+  

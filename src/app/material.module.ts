@@ -7,8 +7,14 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
-import {MatAutocompleteModule} from '@angular/material/autocomplete'
-import {MatCheckboxModule} from '@angular/material/checkbox';;
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatGridListModule } from '@angular/material/grid-list';
+
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 @NgModule({
   imports: [
     MatIconModule,
@@ -21,6 +27,11 @@ import {MatCheckboxModule} from '@angular/material/checkbox';;
     MatChipsModule,
     MatAutocompleteModule,
     MatCheckboxModule,
+    MatGridListModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatSidenavModule,
+    MatListModule,
   ],
   exports: [
     MatIconModule,
@@ -32,7 +43,12 @@ import {MatCheckboxModule} from '@angular/material/checkbox';;
     MatSelectModule,
     MatChipsModule,
     MatAutocompleteModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatGridListModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatSidenavModule,
+    MatListModule,
   ],
 })
 export class MaterialModule {}

@@ -1,0 +1,53 @@
+.mat-input-element[type=date], .mat-input-element[type=datetime], .mat-input-element[type=datetime-local], .mat-input-element[type=month], .mat-input-element[type=week], .mat-input-element[type=time] {
+    line-height: 1;
+    font-size: 21px;
+  }
+  .example-half-width {
+    width: 48%;
+    margin-right: 2%;
+  }
+  .example-full-width{
+    width:100%
+  }
+  .example-mid-width{
+    width:85%
+  }
+  .example-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+  }
+  
+  .example-margin {
+        margin: 0 10px;
+  }
+/* ----------------------- custom css -------------  */
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3%;
+  }
+  
+  mat-form-field {
+    width: 100%;
+    /* margin-bottom: 3%; */
+  }
+  
+  mat-checkbox {
+    margin-top: 3%;
+  }
+  
+  button {
+    margin-top: 3%;
+    width: 100%;
+  };
+
