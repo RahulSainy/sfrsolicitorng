@@ -1,0 +1,28 @@
+app.component.css
+.app-toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+  }
+  
+  .app-title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .spacer {
+    flex: 1 1 auto;
+  }
+  
+  @media (max-width: 599px) {
+    .app-toolbar {
+      position: relative;
+    }
+  
+    .mat-sidenav {
+      width: 80%;
+    }
+  }
+  

@@ -114,6 +114,7 @@
           mat-flat-button
           color="primary"
           matStepperNext
+          disabled="{{ demographicsFormGroup.invalid }}"
         >
           Continue
         </button>
@@ -498,6 +499,7 @@
           mat-flat-button
           color="primary"
           matStepperNext
+          disabled="{{ professionalExpFormGroup.invalid }}"
         >
           Continue
         </button>
@@ -732,6 +734,7 @@
           mat-flat-button
           color="primary"
           matStepperNext
+          disabled="{{ rateFormGroup.invalid }}"
         >
           Continue
         </button>
@@ -862,6 +865,7 @@
         mat-flat-button
         color="primary"
         matStepperNext
+        disabled="{{ orgDetailsFormGroup.invalid }}"
       >
         Continue
       </button>
@@ -871,14 +875,16 @@
   <mat-step [stepControl]="paymentTermsFormGroup">
     <form [formGroup]="paymentTermsFormGroup">
       <ng-template matStepLabel>Payment Terms</ng-template>
-    
+
       <p>Pre-trial work for publicly funded cases</p>
-      <mat-radio-group formControlName="preTrialWorkForPubliclyFundedCasesOption">
+      <mat-radio-group
+        formControlName="preTrialWorkForPubliclyFundedCasesOption"
+      >
         <mat-radio-button value="true"><span>Yes</span></mat-radio-button>
         <mat-radio-button value="false"><span>No</span></mat-radio-button>
       </mat-radio-group>
       <br />
-    
+
       <mat-form-field appearance="outline" class="example-full-width">
         <mat-label>No. of days for other work</mat-label>
         <input matInput formControlName="noOfDaysForOtherWork" />
@@ -893,22 +899,28 @@
           Please enter a valid number of days.
         </mat-error>
       </mat-form-field>
-    
+
       <mat-form-field appearance="outline" class="example-full-width">
         <mat-label>Late payment interest rate</mat-label>
         <input matInput formControlName="latePaymentInterestRate" />
         <mat-icon matSuffix>euro</mat-icon>
-        <mat-error *ngIf="paymentTermsFormGroup.get('latePaymentInterestRate')!.hasError('pattern')">
+        <mat-error
+          *ngIf="
+            paymentTermsFormGroup
+              .get('latePaymentInterestRate')!
+              .hasError('pattern')
+          "
+        >
           Please enter a valid interest rate.
         </mat-error>
       </mat-form-field>
-    
+
       <mat-radio-group formControlName="dataControllerOrProcessorOption">
         <mat-radio-button value="controller">Data controller</mat-radio-button>
         <mat-radio-button value="processor">Data processor</mat-radio-button>
       </mat-radio-group>
       <br />
-      
+
       <mat-checkbox formControlName="acceptTermsAndConditions">
         I have read and agree to the
         <a href="#" target="_blank" (click)="openTermsAndConditions()">
@@ -916,7 +928,13 @@
         </a>
         .
       </mat-checkbox>
-      <mat-error *ngIf="paymentTermsFormGroup.get('acceptTermsAndConditions')!.hasError('required')">
+      <mat-error
+        *ngIf="
+          paymentTermsFormGroup
+            .get('acceptTermsAndConditions')!
+            .hasError('required')
+        "
+      >
         You must accept the terms and conditions.
       </mat-error>
     </form>
@@ -957,6 +975,7 @@
         mat-flat-button
         color="primary"
         mat-button
+        disabled="{{ paymentTermsFormGroup.invalid }}"
         (click)="onSubmit()"
       >
         Register

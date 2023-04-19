@@ -11,7 +11,8 @@ import { LoginComponent } from './auth/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
 import { HttpClientModule } from '@angular/common/http';
-
+import { DetailsComponent } from './admin/details/details.component';
+import { NavComponent } from './nav/nav.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,6 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
     SignupComponent,
     DashboardComponent,
     CompleteProfileComponent,
+    DetailsComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,

@@ -1,9 +1,9 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const MoreDetails = require("../models/updateProfile")
+const MoreDetails = require("../models/updateProfile");
 const dotenv = require("dotenv");
-dotenv.config()
+dotenv.config();
 exports.registerUser = async (req, res) => {
   const { firstName, lastName, email, contact, password, agree, approve } =
     req.body;
@@ -55,13 +55,10 @@ exports.loginUser = async (req, res) => {
   // Generate JWT token
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
   const now = new Date();
-  const expirationDate = new Date(now.getTime() + (24 * 60 * 60 * 1000)); // set expiration time to 24 hours from now
+  const expirationDate = new Date(now.getTime() + 24 * 60 * 60 * 1000); // set expiration time to 24 hours from now
   const expiresIn = (expirationDate.getTime() - now.getTime()) / 1000;
-  res.status(200).json({ token ,expiresIn });
+  res.status(200).json({ token, expiresIn });
 };
-
-
-
 
 exports.getUser = async (req, res) => {
   const userId = req.params.userId;
@@ -77,17 +74,15 @@ exports.getUser = async (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      contact: user.contact, 
+      contact: user.contact,
     });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-}
-
-
+};
 
 exports.updateUserDetails = async (req, res) => {
-  console.log("upd work itll here")
+  console.log("upd work itll here");
   try {
     // Create a new instance of the MoreDetails model with the form data
     const moreDetails = new MoreDetails(req.body);
@@ -95,31 +90,20 @@ exports.updateUserDetails = async (req, res) => {
     await moreDetails.save();
 
     // Return a success response
-    res.status(200).json({ message: 'Form data submitted successfully' });
+    res.status(200).json({ message: "Form data submitted successfully" });
   } catch (error) {
-    console.error('updateUserDetails error', error);
+    console.error("updateUserDetails error", error);
     // Return an error response
-    res.status(500).json({ message: 'Error submitting form data', error });
+    res.status(500).json({ message: "Error submitting form data", error });
   }
 };
 
-// exports.updateUserDetails = async (req, res) => {
-//   try {
-//     const userId = req.params.userId;
-//     const updateObj = {};
-    
-//     // Check if registrationForm exists before adding to update object
-//     if (req.body.registrationForm) {
-//       updateObj.registrationForm = req.body.registrationForm;
-//     }
-    
-//     const updatedUser = await mongoose.model('User').findByIdAndUpdate(
-//       userId,
-//       updateObj,
-//       { new: true, runValidators: true }
-//     );
-//     res.status(200).json(updatedUser);
-//   } catch (error) {
-//     res.status(400).json({ message: error.message });
-//   }
-// }
+exports.getAllUserDetails = async (req, res) => {
+  moreDetails.find().then(documents => {
+    res.status(200).json({
+      message: "Posts fetched successfully!",
+      posts: documents
+    });
+  });
+};
+

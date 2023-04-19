@@ -11,6 +11,8 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { AuthService } from '../auth.service';
 
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-complete-profile',
   templateUrl: './complete-profile.component.html',
@@ -72,7 +74,7 @@ export class CompleteProfileComponent implements OnInit {
   // professionalExp!:FormGroup
 
   @ViewChild('keywordInput') keywordInput!: ElementRef<HTMLInputElement>;
-  constructor(private fb: FormBuilder, public authService: AuthService) {}
+  constructor(private fb: FormBuilder, public authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     const fieldsOfExpGroup: any = {};
@@ -310,10 +312,22 @@ export class CompleteProfileComponent implements OnInit {
     //   console.log('invalid', this.registrationForm.value);
     //   return;
     // }
+
     this.authService.updateFrom(this.registrationForm.value).subscribe(
-      (response) => console.log('success', response),
-      (error) => console.error('error', error)
+      (response) => {
+        console.log('Success:', response);
+        this.router.navigate(['/dashboard']);
+      },
+      (error) => console.error('Error:', error)
     );
-    console.log('onsubmit : ', this.registrationForm.value);
+    console.log('onSubmit:', this.registrationForm.value);
+
+    // this.authService.updateFrom(this.registrationForm.value)
+    // .subscribe(
+    //   (response) => console.log('success', response),
+    //   (error) => console.error('error', error)
+    // );
+    // console.log('onsubmit : ', this.registrationForm.value);
   }
+
 }

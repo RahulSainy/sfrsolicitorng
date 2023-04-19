@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const moredetialsSchema = new mongoose.Schema({
+  _id: {
+    type: mongoose.Types.ObjectId,
+    required: true,
+    auto: true,
+  },
   demographics: {
     name: {
       type: String,
